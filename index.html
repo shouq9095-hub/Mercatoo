@@ -1,0 +1,340 @@
+
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>تقييم تجربتك</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background: white;
+            width: 90%;
+            max-width: 450px;
+            padding: 30px 25px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        h1 {
+            margin-bottom: 10px;
+            color: #222;
+        }
+
+        p {
+            color: #777;
+            margin-bottom: 25px;
+        }
+
+        .stars {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            direction: ltr;
+            margin-bottom: 25px;
+        }
+
+        .star {
+            font-size: 40px;
+            color: #ccc;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .star:hover {
+            transform: scale(1.1);
+        }
+
+        .comment-title {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .comment-icon {
+            font-size: 20px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 110px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            padding: 12px;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            resize: none;
+            outline: none;
+        }
+
+        textarea:focus {
+            border-color: #999;
+        }
+
+        button {
+            margin-top: 20px;
+            width: 180px;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            background-color: #222;
+            color: white;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        .send-icon {
+            margin-left: 6px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>كيف كانت تجربتك معنا؟</h1>
+
+        <p>شاركنا تقييمك</p>
+
+        <div class="stars">
+            <span class="star" onclick="selectRating(1)">★</span>
+            <span class="star" onclick="selectRating(2)">★</span>
+            <span class="star" onclick="selectRating(3)">★</span>
+            <span class="star" onclick="selectRating(4)">★</span>
+            <span class="star" onclick="selectRating(5)">★</span>
+        </div>
+
+        <div class="comment-title">
+            <span class="comment-icon">✎</span>
+            <span>ملاحظاتك تهمنا</span>
+        </div>
+
+        <textarea id="comment" placeholder="اكتب تعليقك هنا..."></textarea>
+
+        <button onclick="submitRating()">
+            <span class="send-icon">➤</span>
+            إرسال التقييم
+        </button>
+
+    </div>
+
+    <script>
+
+        const branches = {
+
+            "01": {
+                name: "الرياض – الملز",
+                review: "https://g.page/r/Ca3jSr1Z0dUYEBM/review"
+            },
+
+            "02": {
+                name: "الرياض – اشبيليه",
+                review: "https://g.page/r/CdllYciMoT8GEBM/review"
+            },
+
+            "03": {
+                name: "الرياض – الشفا",
+                review: "https://g.page/r/CbNrebES7OEiEBM/review"
+            },
+
+            "04": {
+                name: "الرياض – النسيم",
+                review: "https://g.page/r/CVAh0_CJDoo1EBM/review"
+            },
+
+            "05": {
+                name: "جدة – الفيصلية",
+                review: "https://g.page/r/CfrU07iMJpmpEBM/review"
+            },
+
+            "06": {
+                name: "الطائف – شارع أبوبكر",
+                review: "https://g.page/r/CQRdKswUzDrTEBM/review"
+            },
+
+            "07": {
+                name: "الدمام – حياة بلازا",
+                review: "https://g.page/r/Cd427IaBBwTDEBM/review"
+            },
+
+            "08": {
+                name: "الدمام – النخيل",
+                review: "https://maps.app.goo.gl/jsJ6x368d5EQ8ht6A"
+            },
+
+            "09": {
+                name: "الخبر – الخبر الشمالية",
+                review: "https://g.page/r/CWbsamymNfqbEBM/review"
+            },
+
+            "10": {
+                name: "عنيزة – السليمانية",
+                review: "https://g.page/r/CWT69dlXEyXDEBM/review"
+            },
+
+            "11": {
+                name: "بريدة – الاسكان",
+                review: "https://g.page/r/CSPtzNKMBkSTEBM/review"
+            },
+
+            "12": {
+                name: "المدينة المنورة – الجماوات",
+                review: "https://g.page/r/CaUq9hk10TkFEBM/review"
+            },
+
+            "13": {
+                name: "تبوك – العزيزية القديمة",
+                review: "https://g.page/r/CSVAo0c_XHlMEBM/review"
+            },
+
+            "14": {
+                name: "حائل – الزباره",
+                review: "https://g.page/r/CU12tV0Av1tWEBM/review"
+            },
+
+            "15": {
+                name: "أبها – الربوة",
+                review: "https://g.page/r/CX6cv1eiMksiEBM/review"
+            },
+
+            "16": {
+                name: "أبها الجديد – طريق الملك فهد",
+                review: "https://g.page/r/CWxbPgb3sCpLEBM/review"
+            },
+
+            "17": {
+                name: "خميس مشيط – الرصراص",
+                review: "https://g.page/r/CQc_0qnQtHzyEBM/review"
+            },
+
+            "18": {
+                name: "محايل عسير – طريق الملك عبدالعزيز",
+                review: "https://maps.app.goo.gl/LN2hneroRqdXBQVY8"
+            },
+
+            "19": {
+                name: "نجران – الفيصلية",
+                review: "https://g.page/r/CeRzQxhd84AIEBM/review"
+            },
+
+            "20": {
+                name: "الأحساء – المسعودي",
+                review: "https://g.page/r/CV7O-FIlni6REBM/review"
+            },
+
+            "21": {
+                name: "حفر الباطن – الخالدية",
+                review: "https://g.page/r/CfK7zOR61FmhEBM/review"
+            }
+
+        };
+
+
+        const params = new URLSearchParams(window.location.search);
+
+        const branchID = params.get("branch");
+
+        const branch = branches[branchID];
+
+
+        let selectedRating = 0;
+
+
+        function selectRating(stars) {
+
+            selectedRating = stars;
+
+            const allStars = document.querySelectorAll(".star");
+
+            allStars.forEach((star, index) => {
+
+                if (index < stars) {
+                    star.style.color = "#f5b400";
+                } else {
+                    star.style.color = "#ccc";
+                }
+
+            });
+
+        }
+
+
+        function submitRating() {
+
+            if (!branch) {
+
+                alert("تعذر تحديد الفرع.");
+
+                return;
+
+            }
+
+
+            if (selectedRating === 0) {
+
+                alert("فضلاً اختر تقييمك أولاً.");
+
+                return;
+
+            }
+
+
+            const comment = document.getElementById("comment").value.trim();
+
+
+            // تقييم من 1 إلى 3
+            if (selectedRating <= 3) {
+
+                const message =
+                    "مرحباً، لدي ملاحظة على تجربتي.\n\n" +
+                    "التقييم: " + selectedRating + " من 5\n" +
+                    "الملاحظة: " + (comment || "لا توجد ملاحظة");
+
+
+                const whatsappURL =
+                    "https://wa.me/966920021310?text=" +
+                    encodeURIComponent(message);
+
+
+                window.location.href = whatsappURL;
+
+            }
+
+
+            // تقييم 4 أو 5
+            else {
+
+                window.location.href = branch.review;
+
+            }
+
+        }
+
+    </script>
+
+</body>
+</html>
+
